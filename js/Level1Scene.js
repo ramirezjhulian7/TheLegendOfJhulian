@@ -12,6 +12,9 @@ class Level1Scene extends Phaser.Scene {
         const { width, height } = this.cameras.main;
         this.cameras.main.fadeIn(800);
 
+        // --- Touch Controls ---
+        this.touchControls = new TouchControls(this);
+
         // --- Background ---
         this.cameras.main.setBackgroundColor('#1a3322');
 
@@ -57,6 +60,7 @@ class Level1Scene extends Phaser.Scene {
         this.npc = new NPC(this, 250, 200, {
             name: 'Espíritu del Bosque',
             type: 'echo',
+            scale: 1.5,
             dialogues: [
                 'Bienvenida, Dani. Este bosque está lleno de dudas y sombras...',
                 'Pero recuerda: cada paso que das te acerca a la luz.',
@@ -222,7 +226,11 @@ class Level1Scene extends Phaser.Scene {
         this.npc.update(this.player);
 
         // NPC interaction
-        if (this.player.interactKey && Phaser.Input.Keyboard.JustDown(this.player.interactKey)) {
+        const touch = this.touchControls || {};
+        const interactPressed = Phaser.Input.Keyboard.JustDown(this.player.interactKey) || (touch.interact && !this.lastTouchInteract);
+        this.lastTouchInteract = touch.interact;
+
+        if (this.player.interactKey && interactPressed) {
             const dist = Phaser.Math.Distance.Between(
                 this.player.sprite.x, this.player.sprite.y,
                 this.npc.sprite.x, this.npc.sprite.y

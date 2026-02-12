@@ -42,21 +42,23 @@ class Player {
 
         // Movement
         let moving = false;
-        if (this.cursors.left.isDown) {
+        const touch = this.scene.touchControls || {};
+
+        if (this.cursors.left.isDown || touch.left) {
             body.setVelocityX(-this.speed);
             this.facing = 'left';
             moving = true;
-        } else if (this.cursors.right.isDown) {
+        } else if (this.cursors.right.isDown || touch.right) {
             body.setVelocityX(this.speed);
             this.facing = 'right';
             moving = true;
         }
 
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown || touch.up) {
             body.setVelocityY(-this.speed);
             this.facing = 'up';
             moving = true;
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || touch.down) {
             body.setVelocityY(this.speed);
             this.facing = 'down';
             moving = true;
@@ -75,9 +77,11 @@ class Player {
         }
 
         // Attack
-        if (Phaser.Input.Keyboard.JustDown(this.attackKey) && !this.isAttacking) {
+        if ((Phaser.Input.Keyboard.JustDown(this.attackKey) || (touch.attack && !this.lastTouchAttackStr)) && !this.isAttacking) {
             this.attack(time);
         }
+        // Simple latch to prevent machine-gun attack on touch hold (acts like JustDown)
+        this.lastTouchAttackStr = touch.attack;
     }
 
     attack(time) {
@@ -134,7 +138,7 @@ class Player {
             this.die();
         } else {
             // Resume states after short delay (approx animation time)
-            this.scene.time.delayedCall(400, () => {
+            this.scene.time.delayedCall(600, () => {
                 if (this.alive) {
                     this.isHurting = false;
                     // Reset to idle to ensure we don't get stuck in hurt frame if update doesn't trigger immediately

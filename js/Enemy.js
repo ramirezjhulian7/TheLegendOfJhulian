@@ -17,7 +17,8 @@ class Enemy {
         // Create visual
         this.sprite = GraphicsFactory.createEnemy(scene, x, y, {
             size: config.size || 28,
-            color: config.color || 0x4444ff
+            color: config.color || 0x4444ff,
+            type: config.type // Pass type (e.g. 'bat')
         });
         this.sprite.enemyRef = this;
 

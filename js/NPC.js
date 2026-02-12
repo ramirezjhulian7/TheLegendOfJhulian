@@ -12,7 +12,10 @@ class NPC {
         this.hasInteracted = false;
 
         // Create visual
-        this.sprite = GraphicsFactory.createNPC(scene, x, y);
+        this.sprite = GraphicsFactory.createNPC(scene, x, y, {
+            type: config.type, // Pass type (e.g. 'echo')
+            scale: config.scale || 1 // Pass scale
+        });
         this.sprite.npcRef = this;
 
         // Interaction prompt

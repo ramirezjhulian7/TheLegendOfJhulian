@@ -65,31 +65,28 @@ class BootScene extends Phaser.Scene {
             repeat: -1
         });
 
-        // --- Idle (Original idle.png) ---
-        // Typically 4 dirs: Row 0: Up, Row 1: Left, Row 2: Down, Row 3: Right
+        // --- Idle (Static Walk Frame) ---
+        // Using the 'standing' frame from the walk sheet to ensure no movement
+        // Row 0 (Up): 0, Row 1 (Left): 13, Row 2 (Down): 26, Row 3 (Right): 39
         anims.create({
             key: 'dani-idle-down',
-            frames: anims.generateFrameNumbers('dani_idle', { start: 26, end: 27 }), // Row 2
-            frameRate: 2,
-            repeat: -1
+            frames: [{ key: 'dani_walk', frame: 26 }],
+            frameRate: 1
         });
         anims.create({
             key: 'dani-idle-left',
-            frames: anims.generateFrameNumbers('dani_idle', { start: 13, end: 14 }), // Row 1
-            frameRate: 2,
-            repeat: -1
+            frames: [{ key: 'dani_walk', frame: 13 }],
+            frameRate: 1
         });
         anims.create({
             key: 'dani-idle-right',
-            frames: anims.generateFrameNumbers('dani_idle', { start: 39, end: 40 }), // Row 3
-            frameRate: 2,
-            repeat: -1
+            frames: [{ key: 'dani_walk', frame: 39 }],
+            frameRate: 1
         });
         anims.create({
             key: 'dani-idle-up',
-            frames: anims.generateFrameNumbers('dani_idle', { start: 0, end: 1 }), // Row 0
-            frameRate: 2,
-            repeat: -1
+            frames: [{ key: 'dani_walk', frame: 0 }],
+            frameRate: 1
         });
 
         // --- Attack (Slash) ---
@@ -156,30 +153,26 @@ class BootScene extends Phaser.Scene {
             repeat: -1
         });
 
-        // --- Idle (Original) ---
+        // --- Idle (Static Walk Frame) ---
         anims.create({
             key: 'jhulian-idle-down',
-            frames: anims.generateFrameNumbers('jhulian_idle', { start: 26, end: 27 }),
-            frameRate: 2,
-            repeat: -1
+            frames: [{ key: 'jhulian_walk', frame: 26 }],
+            frameRate: 1
         });
         anims.create({
             key: 'jhulian-idle-left',
-            frames: anims.generateFrameNumbers('jhulian_idle', { start: 13, end: 14 }),
-            frameRate: 2,
-            repeat: -1
+            frames: [{ key: 'jhulian_walk', frame: 13 }],
+            frameRate: 1
         });
         anims.create({
             key: 'jhulian-idle-right',
-            frames: anims.generateFrameNumbers('jhulian_idle', { start: 39, end: 40 }),
-            frameRate: 2,
-            repeat: -1
+            frames: [{ key: 'jhulian_walk', frame: 39 }],
+            frameRate: 1
         });
         anims.create({
             key: 'jhulian-idle-up',
-            frames: anims.generateFrameNumbers('jhulian_idle', { start: 0, end: 1 }),
-            frameRate: 2,
-            repeat: -1
+            frames: [{ key: 'jhulian_walk', frame: 0 }],
+            frameRate: 1
         });
 
         // --- Attack ---

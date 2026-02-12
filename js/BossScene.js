@@ -30,6 +30,9 @@ class BossScene extends Phaser.Scene {
         this.cameras.main.fadeIn(600);
         this.cameras.main.setBackgroundColor(this.bgColor);
 
+        // --- Touch Controls ---
+        this.touchControls = new TouchControls(this);
+
         // --- Arena border ---
         const arena = this.add.graphics();
         arena.lineStyle(3, 0x7744aa, 0.6);

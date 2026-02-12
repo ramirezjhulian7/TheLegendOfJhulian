@@ -13,6 +13,9 @@ class Level3Scene extends Phaser.Scene {
         const { width, height } = this.cameras.main;
         this.cameras.main.fadeIn(1200);
 
+        // --- Touch Controls ---
+        this.touchControls = new TouchControls(this);
+
         // --- Warm meadow background ---
         this.cameras.main.setBackgroundColor('#3a6622');
 
@@ -67,7 +70,8 @@ class Level3Scene extends Phaser.Scene {
                 'El camino más difícil ya quedó atrás.',
                 'Cada paso te acerca a la felicidad.'
             ],
-            interactionRange: 55
+            interactionRange: 55,
+            scale: 1.3
         });
         this.npcs.push(npc1);
 
@@ -77,7 +81,8 @@ class Level3Scene extends Phaser.Scene {
                 'El amor verdadero no conoce distancias...',
                 'Ni obstáculos que no pueda superar.'
             ],
-            interactionRange: 55
+            interactionRange: 55,
+            scale: 1.3
         });
         this.npcs.push(npc2);
 
@@ -184,7 +189,11 @@ class Level3Scene extends Phaser.Scene {
         }
 
         // NPC interaction
-        if (this.player.interactKey && Phaser.Input.Keyboard.JustDown(this.player.interactKey)) {
+        const touch = this.touchControls || {};
+        const interactPressed = Phaser.Input.Keyboard.JustDown(this.player.interactKey) || (touch.interact && !this.lastTouchInteract);
+        this.lastTouchInteract = touch.interact;
+
+        if (this.player.interactKey && interactPressed) {
             for (const npc of this.npcs) {
                 const dist = Phaser.Math.Distance.Between(
                     this.player.sprite.x, this.player.sprite.y,

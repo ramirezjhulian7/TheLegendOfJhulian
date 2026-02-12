@@ -12,6 +12,9 @@ class Level2Scene extends Phaser.Scene {
         const { width, height } = this.cameras.main;
         this.cameras.main.fadeIn(800);
 
+        // --- Touch Controls ---
+        this.touchControls = new TouchControls(this);
+
         // --- Dark cave background ---
         this.cameras.main.setBackgroundColor('#0a0a15');
 
@@ -59,6 +62,7 @@ class Level2Scene extends Phaser.Scene {
         this.npc = new NPC(this, 200, 450, {
             name: 'Eco Amistoso',
             type: 'echo',
+            scale: 1.5,
             dialogues: [
                 'No dejes que el silencio te consuma...',
                 'Incluso aquí, en la oscuridad, no estás sola.',
@@ -204,7 +208,7 @@ class Level2Scene extends Phaser.Scene {
                     'Incluso en los días más oscuros, tu luz interior sigue brillando.',
                     'No tienes que cargar el mundo sola.'
                 ],
-                nextScene: 'TitleScene', // Loop back to title for now if Level 3 doesn't exist
+                nextScene: 'Level3Scene', // Proceed to Mission 3
                 bgColor: '#0a0a20',
                 arenaColor: 0x0a0a15
             });
@@ -223,7 +227,11 @@ class Level2Scene extends Phaser.Scene {
         this.npc.update(this.player);
 
         // NPC interaction
-        if (this.player.interactKey && Phaser.Input.Keyboard.JustDown(this.player.interactKey)) {
+        const touch = this.touchControls || {};
+        const interactPressed = Phaser.Input.Keyboard.JustDown(this.player.interactKey) || (touch.interact && !this.lastTouchInteract);
+        this.lastTouchInteract = touch.interact;
+
+        if (this.player.interactKey && interactPressed) {
             const dist = Phaser.Math.Distance.Between(
                 this.player.sprite.x, this.player.sprite.y,
                 this.npc.sprite.x, this.npc.sprite.y

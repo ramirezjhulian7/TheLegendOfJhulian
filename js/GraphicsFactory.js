@@ -207,8 +207,9 @@ class GraphicsFactory {
 
         if (type === 'echo') {
             const sprite = scene.physics.add.sprite(x, y, 'npc_echo');
-            sprite.setDisplaySize(32, 32);
-            sprite.body.setSize(24, 24);
+            const scale = config.scale || 1;
+            sprite.setDisplaySize(32 * scale, 32 * scale);
+            sprite.body.setSize(24 * scale, 24 * scale);
             // Floating animation
             scene.tweens.add({
                 targets: sprite,
