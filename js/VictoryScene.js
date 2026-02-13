@@ -49,26 +49,18 @@ class VictoryScene extends Phaser.Scene {
             });
         }
 
-        // --- Characters together ---
+        // --- Characters together (using actual sprites) ---
         // Dani
-        const dani = this.add.graphics();
-        dani.fillStyle(0xff4444, 1);
-        dani.fillRoundedRect(-16, -16, 32, 32, 4);
-        dani.fillStyle(0xff6622, 1);
-        dani.fillRect(-16, -16, 32, 6);
-        dani.setPosition(width / 2 - 25, 220);
+        const dani = this.add.sprite(width / 2 - 40, 220, 'dani_walk', 26);
+        dani.setScale(3);
         dani.setDepth(10);
+        dani.anims.play('dani-walk-down', true);
 
         // Jhulian
-        const jhulian = this.add.graphics();
-        jhulian.fillStyle(0x44cc44, 1);
-        jhulian.fillRoundedRect(-16, -16, 32, 32, 4);
-        jhulian.fillStyle(0xff4444, 1);
-        jhulian.fillCircle(-3, 2, 3);
-        jhulian.fillCircle(3, 2, 3);
-        jhulian.fillTriangle(-6, 3, 6, 3, 0, 9);
-        jhulian.setPosition(width / 2 + 25, 220);
+        const jhulian = this.add.sprite(width / 2 + 40, 220, 'jhulian_walk', 26);
+        jhulian.setScale(3);
         jhulian.setDepth(10);
+        jhulian.anims.play('jhulian-walk-down', true);
 
         // Together bob animation
         this.tweens.add({

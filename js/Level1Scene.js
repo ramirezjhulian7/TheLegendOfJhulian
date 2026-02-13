@@ -60,7 +60,7 @@ class Level1Scene extends Phaser.Scene {
         this.npc = new NPC(this, 250, 200, {
             name: 'Espíritu del Bosque',
             type: 'echo',
-            scale: 1.5,
+            scale: 2.5,
             dialogues: [
                 'Bienvenida, Dani. Este bosque está lleno de dudas y sombras...',
                 'Pero recuerda: cada paso que das te acerca a la luz.',

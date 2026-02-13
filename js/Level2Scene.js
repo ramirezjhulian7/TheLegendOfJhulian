@@ -62,7 +62,7 @@ class Level2Scene extends Phaser.Scene {
         this.npc = new NPC(this, 200, 450, {
             name: 'Eco Amistoso',
             type: 'echo',
-            scale: 1.5,
+            scale: 2.5,
             dialogues: [
                 'No dejes que el silencio te consuma...',
                 'Incluso aquí, en la oscuridad, no estás sola.',

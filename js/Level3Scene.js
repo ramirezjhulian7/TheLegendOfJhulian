@@ -71,7 +71,7 @@ class Level3Scene extends Phaser.Scene {
                 'Cada paso te acerca a la felicidad.'
             ],
             interactionRange: 55,
-            scale: 1.3
+            scale: 2.0
         });
         this.npcs.push(npc1);
 
@@ -82,15 +82,23 @@ class Level3Scene extends Phaser.Scene {
                 'Ni obstáculos que no pueda superar.'
             ],
             interactionRange: 55,
-            scale: 1.3
+            scale: 2.0
         });
         this.npcs.push(npc2);
 
-        // --- Jhulian (at the end) ---
-        this.jhulian = GraphicsFactory.createJhulian(this, 720, 300);
+        // --- Jhulian (at the end) — use actual sprite ---
+        this.jhulian = this.add.sprite(720, 300, 'jhulian_walk', 26);
+        this.jhulian.setScale(2.5);
+        this.jhulian.setDepth(10);
+        this.jhulian.anims.play('jhulian-idle-down', true);
+
+        // Physics body for overlap detection
+        this.physics.add.existing(this.jhulian);
+        this.jhulian.body.setImmovable(true);
+        this.jhulian.body.setSize(32, 32);
 
         // Jhulian label
-        this.jhulianLabel = this.add.text(720, 265, 'Jhulian', {
+        this.jhulianLabel = this.add.text(720, 255, 'Jhulian', {
             fontFamily: '"Press Start 2P"',
             fontSize: '8px',
             color: '#44cc44',
