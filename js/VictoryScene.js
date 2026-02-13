@@ -175,7 +175,9 @@ class VictoryScene extends Phaser.Scene {
         this.tweens.add({ targets: thanksText, alpha: 0.7, duration: 1500, delay: 7000 });
 
         // --- Restart option ---
-        const restartText = this.add.text(width / 2, 550, 'Presiona ENTER para jugar de nuevo', {
+        const hasTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+        const restartMsg = hasTouch ? 'Toca para jugar de nuevo' : 'Presiona ENTER para jugar de nuevo';
+        const restartText = this.add.text(width / 2, 550, restartMsg, {
             fontFamily: '"Press Start 2P"',
             fontSize: '8px',
             color: '#556677'
@@ -199,11 +201,16 @@ class VictoryScene extends Phaser.Scene {
             }
         });
 
-        this.input.keyboard.on('keydown-ENTER', () => {
+        let restarted = false;
+        const doRestart = () => {
+            if (restarted) return;
+            restarted = true;
             this.cameras.main.fadeOut(1000, 0, 0, 0);
             this.cameras.main.once('camerafadeoutcomplete', () => {
                 this.scene.start('TitleScene');
             });
-        });
+        };
+        this.input.keyboard.on('keydown-ENTER', doRestart);
+        this.input.on('pointerdown', doRestart);
     }
 }

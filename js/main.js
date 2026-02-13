@@ -28,7 +28,12 @@ const gameConfig = {
     ],
     scale: {
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        min: { width: 320, height: 240 },
+        max: { width: 1600, height: 1200 }
+    },
+    input: {
+        activePointers: 3 // Allow multitouch for D-pad + action buttons
     },
     pixelArt: false,
     roundPixels: true

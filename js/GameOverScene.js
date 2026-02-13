@@ -83,7 +83,9 @@ class GameOverScene extends Phaser.Scene {
         });
 
         // --- Retry prompt ---
-        const retryText = this.add.text(width / 2, height / 2 + 80, 'Presiona ENTER para\nintentar de nuevo', {
+        const hasTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+        const retryMsg = hasTouch ? 'Toca la pantalla para\nintentar de nuevo' : 'Presiona ENTER para\nintentar de nuevo';
+        const retryText = this.add.text(width / 2, height / 2 + 80, retryMsg, {
             fontFamily: '"Press Start 2P"',
             fontSize: '10px',
             color: '#cc88ff',
@@ -110,7 +112,10 @@ class GameOverScene extends Phaser.Scene {
         });
 
         // --- Input ---
-        this.input.keyboard.on('keydown-ENTER', () => {
+        let restarted = false;
+        const doRestart = () => {
+            if (restarted) return;
+            restarted = true;
             this.cameras.main.fadeOut(500, 0, 0, 0);
             this.cameras.main.once('camerafadeoutcomplete', () => {
                 if (this.restartScene === 'BossScene' && this.bossData) {
@@ -119,6 +124,8 @@ class GameOverScene extends Phaser.Scene {
                     this.scene.start(this.restartScene);
                 }
             });
-        });
+        };
+        this.input.keyboard.on('keydown-ENTER', doRestart);
+        this.input.on('pointerdown', doRestart);
     }
 }

@@ -135,21 +135,32 @@ class TitleScene extends Phaser.Scene {
             color: '#44aa44'
         }).setOrigin(0.5);
 
-        // Controls info
-        this.add.text(width / 2, 420, '⬆ ⬇ ⬅ ➡  Mover', {
-            fontFamily: '"Press Start 2P"',
-            fontSize: '8px',
-            color: '#667788'
-        }).setOrigin(0.5);
+        // Controls info — adapt for mobile
+        const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+        if (!isTouchDevice) {
+            this.add.text(width / 2, 420, '⬆ ⬇ ⬅ ➡  Mover', {
+                fontFamily: '"Press Start 2P"',
+                fontSize: '8px',
+                color: '#667788'
+            }).setOrigin(0.5);
 
-        this.add.text(width / 2, 445, 'ESPACIO  Atacar    E  Hablar', {
-            fontFamily: '"Press Start 2P"',
-            fontSize: '8px',
-            color: '#667788'
-        }).setOrigin(0.5);
+            this.add.text(width / 2, 445, 'ESPACIO  Atacar    E  Hablar', {
+                fontFamily: '"Press Start 2P"',
+                fontSize: '8px',
+                color: '#667788'
+            }).setOrigin(0.5);
+        } else {
+            this.add.text(width / 2, 430, 'Controles táctiles en pantalla', {
+                fontFamily: '"Press Start 2P"',
+                fontSize: '8px',
+                color: '#667788'
+            }).setOrigin(0.5);
+        }
 
-        // Start prompt
-        const startText = this.add.text(width / 2, 520, 'Presiona ENTER para comenzar', {
+        // Start prompt — detect touch support and show appropriate message
+        const hasTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+        const startMsg = hasTouch ? 'Toca la pantalla para comenzar' : 'Presiona ENTER para comenzar';
+        const startText = this.add.text(width / 2, 520, startMsg, {
             fontFamily: '"Press Start 2P"',
             fontSize: '10px',
             color: '#cc88ff'
@@ -164,8 +175,12 @@ class TitleScene extends Phaser.Scene {
             repeat: -1
         });
 
-        // Input
-        this.input.keyboard.on('keydown-ENTER', () => {
+        // --- Start game function ---
+        let started = false;
+        const startGame = () => {
+            if (started) return;
+            started = true;
+
             // Initialize global game state
             this.registry.set('maxHealth', 6);
 
@@ -173,6 +188,12 @@ class TitleScene extends Phaser.Scene {
             this.cameras.main.once('camerafadeoutcomplete', () => {
                 this.scene.start('Level1Scene');
             });
-        });
+        };
+
+        // Keyboard: ENTER
+        this.input.keyboard.on('keydown-ENTER', startGame);
+
+        // Touch / Click: tap anywhere
+        this.input.on('pointerdown', startGame);
     }
 }
